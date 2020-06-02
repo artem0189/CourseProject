@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="CourseProject.View.UserControls.ChatRoomUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CourseProject.View.UserControls"
+             xmlns:conv="clr-namespace:CourseProject.Converter"
+             xmlns:model="clr-namespace:CourseProject.Model"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="400">
+    <UserControl.Resources>
+        <conv:BitmapToImageSourceConverter x:Key="BitmapConverter"/>
+        <conv:IconConverter x:Key="IconConverter"/>
+        <conv:ColorConverter x:Key="ColorConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="6*"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding Users}" Grid.Row="0" Grid.Column="0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Silver" BorderThickness="1">
+                            <StackPanel Background="Silver">
+                                <Image MaxHeight="700" Source="{Binding Path=CurrentFrame, Converter={StaticResource BitmapConverter}}"/>
+                                <TextBlock HorizontalAlignment="Center" FontSize="20" Text="{Binding Name}"/>
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <Border Height="30" Width="30" Background="{Binding Path=IsMicrophone, Converter={StaticResource ColorConverter}}" CornerRadius="30" Margin="0 0 20 0">
+                                        <Image Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding Converter={StaticResource IconConverter}, ConverterParameter=microphone.png}"/>
+                                    </Border>
+                                    <Border Height="30" Width="30" Background="{Binding Path=IsSpeaker, Converter={StaticResource ColorConverter}}" CornerRadius="30" Margin="0 0 20 0">
+                                        <Image Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding Converter={StaticResource IconConverter}, ConverterParameter=speaker.png}"/>
+                                    </Border>
+                                    <Border Height="30" Width="30" Background="{Binding Path=IsWebcam, Converter={StaticResource ColorConverter}}" CornerRadius="30" Margin="0 0 20 0">
+                                        <Image Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding Converter={StaticResource IconConverter}, ConverterParameter=webcam.png}"/>
+                                    </Border>
+                                    <Border Height="30" Width="30" Background="{Binding Path=IsScreenDemonstration, Converter={StaticResource ColorConverter}}" CornerRadius="30">
+                                        <Image Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding Converter={StaticResource IconConverter}, ConverterParameter=screen.png}"/>
+                                    </Border>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel></StackPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+        <StackPanel HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0"  Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="30" Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </StackPanel.Resources>
+            <Button Command="{Binding AudioCommand}" Background="{Binding Path=MyModel.IsMicrophone, Converter={StaticResource ColorConverter}}">
+                <Image HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Source="{Binding Converter={StaticResource IconConverter}, ConverterParameter=microphone.png}"/>
+            </Button>
+            <Button Command="{Binding SoundCommand}" Background="{Binding Path=MyModel.IsSpeaker, Converter={StaticResource ColorConverter}}">
+                <Image HorizontalAlignment="Center" VerticalAlignment="Center" Margin="7" Source="{Binding Converter={StaticResource IconConverter}, ConverterParameter=speaker.png}"/>
+            </Button>
+            <Button Command="{Binding ShowWebcamCommand}" Background="{Binding Path=MyModel.IsWebcam, Converter={StaticResource ColorConverter}}">
+                <Image HorizontalAlignment="Center" VerticalAlignment="Center" Margin="7" Source="{Binding Converter={StaticResource IconConverter}, ConverterParameter=webcam.png}"/>
+            </Button>
+            <Button Command="{Binding DemonstrationCommand}" Background="{Binding Path=MyModel.IsScreenDemonstration, Converter={StaticResource ColorConverter}}">
+                <Image HorizontalAlignment="Center" VerticalAlignment="Center" Margin="7" Source="{Binding Converter={StaticResource IconConverter}, ConverterParameter=screen.png}"/>
+            </Button>
+            <Button Command="{Binding ExitCommand}" Background="Green">
+                <Image HorizontalAlignment="Center" VerticalAlignment="Center" Margin="7" Source="{Binding Converter={StaticResource IconConverter}, ConverterParameter=exit.png}"/>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>
