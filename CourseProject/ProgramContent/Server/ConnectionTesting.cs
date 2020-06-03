@@ -35,8 +35,8 @@ namespace CourseProject.ProgramContent.Server
         {
             bool result = false;
 
-            if ("127.0.0.1" == ip)
-            {
+            //if ("127.0.0.1" == ip)
+            //{
                 result = true;
                 IPGlobalProperties ipGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
                 TcpConnectionInformation[] tcpConnInfoArray = ipGlobalProperties.GetActiveTcpConnections();
@@ -48,7 +48,7 @@ namespace CourseProject.ProgramContent.Server
                         break;
                     }
                 }
-            }
+            //}
 
             return result;
         }

@@ -104,7 +104,6 @@ namespace CourseProject.ProgramContent.Server
                         clientInfo.Remove(clientInfo.Find(obj => obj.ID == (int)(clients[client] & 0xFFFFFFFC)));
                         SendData(client, CollectionConversion.AddToEndArray(CollectionConversion.AddToEndArray(ConvertClass.ObjectToByteArray(clientInfo), new byte[] { 4 }), new byte[4]));
                         clients.Remove(client);
-                        client.GetStream().Close();
                         client.Close();
                     }
                 }
