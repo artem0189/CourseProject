@@ -23,7 +23,7 @@ namespace CourseProject.ProgramContent.Server
                 testConnection.Close();
             }
             catch
-            {
+            { 
                 testConnection.Close();
                 result = false;
             }
@@ -33,22 +33,23 @@ namespace CourseProject.ProgramContent.Server
 
         public static bool TryCreateServer(string ip, int port)
         {
-            bool result = false;
+            bool result = true;
 
-            //if ("127.0.0.1" == ip)
-            //{
-                result = true;
-                IPGlobalProperties ipGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
-                TcpConnectionInformation[] tcpConnInfoArray = ipGlobalProperties.GetActiveTcpConnections();
-                foreach (var tcpi in tcpConnInfoArray)
+            TcpListener server = null;
+            try
+            {
+                server = new TcpListener(IPAddress.Parse(ip), port);
+                server.Start();
+                server.Stop();
+            }
+            catch
+            {
+                if (server != null)
                 {
-                    if (tcpi.LocalEndPoint.Port == port)
-                    {
-                        result = false;
-                        break;
-                    }
+                    server.Stop();
                 }
-            //}
+                result = false;
+            }
 
             return result;
         }
